@@ -3,14 +3,23 @@ import random
 
 class Task:
 
-    new_tasks = []
+    tasks = []
 
-    def __init__(self, from_location, product, warehouse):
+    def __init__(self, from_location, item, warehouse):
         self.from_location = from_location
         self.handling_unit_number = Task.get_handling_unit_number()
-        self.index_number = product.index_number
-        self.quantity = product.quantity
+        if str(item) == 'product':
+            self.index_number = item.index_number
+            self.quantity = item.quantity
         self.to_location = Task.get_to_location(warehouse)
+
+# TODO: Task methods:
+# show details of task
+# add task to worker
+# who done this task
+# check time of last update
+# check location
+# check all history of the task
 
     def __str__(self):
         return f'From location: {self.from_location}\nHandling unit: {self.handling_unit_number}\n' \
@@ -33,5 +42,8 @@ class Task:
 
     @classmethod
     def display_tasks(cls):
-        for task in Task.new_tasks:
+        for task in Task.tasks:
             print(task)
+
+    def check_location(self):
+        return self.from_location
