@@ -4,6 +4,7 @@ import random
 import math
 import os
 import errno
+import json
 
 
 class Company:
@@ -17,6 +18,27 @@ class Company:
         self.pallet_per_component = {key: random.choice([0.25, 0.5, 0.75, 1]) for key in self.components}
         self.charge_for_pallet_per_component = {key: (1 - value) / value * random.randint(500, 5000)
                                                 for (key, value) in self.pallet_per_component.items()}
+
+    def add_components_to_file(self):
+        """
+            This function creates a directory for storing components and later created invoice files.
+        """
+        dir_path = f'{self.name}'
+        try:
+            os.makedirs(dir_path, 644)
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+        filename = f'{self.name}_components.json'
+        with open(os.path.join(dir_path, filename), 'w') as file:
+            for component in self.components:
+                file.write(json.dumps(component, default=Company.encoder_component, indent=4))
+
+    @staticmethod
+    def encoder_component(component):
+        if isinstance(component, Component):
+            return {'index': component.index_number, 'quantity': component.quantity}
+        raise TypeError(f'Object {component} is not of type Component.')
 
     def check_order(self, order):
         pallets = 0
@@ -34,13 +56,8 @@ class Company:
         """
             This function creates a directory for storing created invoice files.
         """
-        try:
-            os.makedirs(f"{self.name}", 644)
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-
-        with open(f'{order.identity}', 'w') as file:
+        dir_path = f'{self.name}'
+        with open(os.path.join(dir_path, f'{order.identity}.txt'), 'w') as file:
             invoice = Invoice(order, self)
             file.write(f'Invoice number: {invoice.number}\n')
             for index, item, payment in enumerate(invoice.items_payment.items()):
