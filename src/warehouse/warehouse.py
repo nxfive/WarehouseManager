@@ -19,7 +19,7 @@ class Warehouse:
         self._name = name
         self._tasks = []
         self._capacity = 144
-        self._ramps = 4
+        self._busy_ramps = [False, False, False, False]    # 4 ramps, False = not busy
         self._locations = {
             'A1_1': None, 'A1_2': None, 'A1_3': None,
             'A2_1': None, 'A2_2': None, 'A2_3': None,
