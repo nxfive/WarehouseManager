@@ -1,3 +1,6 @@
+import random
+
+
 class TransportCar:
 
     def __init__(self, pallets, order):
@@ -8,3 +11,11 @@ class TransportCar:
             print(f"[ADDITIONAL FEE] {self.delivery_cost}")
         self.indexes = [key for key in order.items.keys()]
         self.number_of_pallets = pallets
+
+    def drive_to_the_warehouse(self, warehouse):
+        for ramp in warehouse.ramps:
+            if ramp is False:
+                ramp = self
+                break
+
+
