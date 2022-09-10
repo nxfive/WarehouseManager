@@ -1,6 +1,7 @@
 from src.person.person import Person
 from src.utils.utils import validation_input as validate
 from src.warehouse.task import Task
+from src.database.database import *
 import random
 
 
@@ -20,6 +21,7 @@ class Worker(Person):
         self._experience = experience
         self._identity = id(self)
         self._change, self._job = self.get_change_and_job()
+        insert_data_to_warehouse_db(self, self.warehouse.database, f'{self.__class__.__name__}s')
 
     def __str__(self):
         return f'[{self.__class__.__name__}] Name: {self.name}, Surname: {self.surname}'
