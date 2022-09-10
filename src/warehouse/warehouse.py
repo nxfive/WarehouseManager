@@ -1,6 +1,3 @@
-from src.person.warehouse_operator import WarehouseOperator
-
-
 class Warehouse:
 
     _change_structure = {
@@ -63,6 +60,10 @@ class Warehouse:
             'D8_1': None, 'D8_2': None, 'D8_3': None,
             'D9_1': None, 'D9_2': None, 'D9_3': None,
             'D10_1': None, 'D10_2': None, 'D10_3': None}
+
+    @property
+    def database(self):
+        return self._database
 
     @property
     def name(self):
