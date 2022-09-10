@@ -5,17 +5,15 @@ class Task:
 
     tasks = []
 
-    def __init__(self, from_location, item, warehouse):
+    def __init__(self, from_location, identity, quantity, warehouse):
         self.from_location = from_location
-        self.handling_unit_number = Task.get_handling_unit_number()
-        if str(item) == 'product':
-            self.index_number = item.index_number
-            self.quantity = item.quantity
+        self.handling_unit_number = int(str(400125) + str(random.randint(100000, 999999)))
+        self.index_number = identity
+        self.quantity = quantity
         self.to_location = Task.get_to_location(warehouse)
 
 # TODO: Task methods:
 # show details of task
-# add task to worker
 # who done this task
 # check time of last update
 # check location
@@ -23,12 +21,8 @@ class Task:
 
     def __str__(self):
         return f'From location: {self.from_location}\nHandling unit: {self.handling_unit_number}\n' \
-               f'Index: {self.index_number}\nQuantity: {self.quantity}\nTo location: {self.to_location}'
-
-    @staticmethod
-    def get_handling_unit_number():
-        handling_unit = str(400125) + str(random.randint(100000, 999999))
-        return int(handling_unit)
+               f'Index: {self.index_number}\nQuantity: {self.quantity}\nTo location: {self.to_location}\n' \
+               f'--------------------------------'
 
     @staticmethod
     def get_to_location(warehouse):
