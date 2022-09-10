@@ -3,24 +3,26 @@ from src.person.warehouse_operator import WarehouseOperator
 
 class Warehouse:
 
-    _change_structure = {'shipping': WarehouseOperator._instances,
-                         'receipt': WarehouseOperator._instances,
-                         'placement': WarehouseOperator._instances,
-                         'release': WarehouseOperator._instances}
+    _change_structure = {
+                'shipping':  [None] * 2,
+                'receipt':   [None] * 2,
+                'placement': [None] * 2,
+                'release':   [None] * 4,
+    }
 
-    _warehouse_structure = {'change_A': _change_structure,
-                            'change_B': _change_structure,
-                            'change_C': _change_structure}
+    warehouse_structure = {
+                'change_A': _change_structure,
+                'change_B': _change_structure,
+                'change_C': _change_structure,
+    }
 
-    # amount of people per change
-    _changes = {change: len(WarehouseOperator._instances) for change in _warehouse_structure.keys()}
-
-    def __init__(self, name):
+    def __init__(self, database, name):
+        self._database = database
         self._name = name
         self._tasks = []
         self._capacity = 144
         self._busy_ramps = [False, False, False, False]    # 4 ramps, False = not busy
-        self._locations = {
+        self.locations = {
             'A1_1': None, 'A1_2': None, 'A1_3': None,
             'A2_1': None, 'A2_2': None, 'A2_3': None,
             'A3_1': None, 'A3_2': None, 'A3_3': None,
@@ -75,18 +77,19 @@ class Warehouse:
         return self._capacity
 
     @property
-    def ramps(self):
-        return self._ramps
+    def busy_ramps(self):
+        return self._busy_ramps
 
     def check_location(self, location):
-        print(self._locations[location])
+        print(self.locations[location])
 
     def show_empty_locations(self):
-        for key, value in self._locations.items():
+        for key, value in self.locations.items():
             if value is None:
                 print(key, value)
 
     def show_nonempty_locations(self):
-        for key, value in self._locations.items():
+        for key, value in self.locations.items():
             if value is not None:
                 print(key, value)
+
