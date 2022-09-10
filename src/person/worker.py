@@ -19,7 +19,7 @@ class Worker(Person):
         self._warehouse = warehouse
         self._experience = experience
         self._identity = id(self)
-        self._change, self._job = self.get_change_and_job(warehouse)
+        self._change, self._job = self.get_change_and_job()
 
     def __str__(self):
         return f'[{self.__class__.__name__}] Name: {self.name}, Surname: {self.surname}'
@@ -42,6 +42,14 @@ class Worker(Person):
     @property
     def warehouse(self):
         return self._warehouse
+
+    @property
+    def job(self):
+        return self._job
+
+    @property
+    def change(self):
+        return self._change
 
     def get_change_and_job(self):
         structure = self.warehouse.warehouse_structure
